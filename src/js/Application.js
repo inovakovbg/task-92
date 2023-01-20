@@ -12,9 +12,6 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
 
-    const notifactionElement = document.querySelector('.notifications');
-    const mainElement = document.querySelector('.main');
-
     const pizzas = [
       {
         type: Card.types.HAWAIIAN,
@@ -34,28 +31,9 @@ export default class Application extends EventEmitter {
       const card = new Card({ ...pizza });
       card.render();
 
-      card.on(Card.events.ADD_TO_CART, (pizza) => {
-
-        const notif = new notification();
-        notif.render(pizza);
-
-        notifactionElement.appendChild(notif.container);
-      });
-
-      mainElement.appendChild(card.container);
+      document.querySelector(".main").appendChild(card.container);
     });
-
-    this.addEventListenerToNotificationContainer();
 
     this.emit(Application.events.READY);
-  }
-
-  addEventListenerToNotificationContainer() {
-    document.querySelector('.notifications').addEventListener('click', (e) => {
-
-      if (e.target.classList.contains('delete')) {
-        e.target.parentElement.parentElement.remove();
-      }
-    });
   }
 }

@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import EventEmitter from "eventemitter3";
-import notification from "./Notification";
-import { formatCurrency } from './utils';
+import Notification from "./Notification";
 
 export default class Card extends EventEmitter {
   static get events() {
@@ -38,15 +37,20 @@ export default class Card extends EventEmitter {
 </div>
     `;
 
+    
+
     this.container.innerHTML = template;
     this.container.addEventListener("click", () => {
-      this.emit(notification.events.ADD_TO_CART, {
+      this.emit(Card.events.ADD_TO_CART, {
         type: this._type,
         price: this._price,
       });
     });
-
-
+    
+this.addListener(Card.events.ADD_TO_CART, (args) => {
+  let new_notification=new Notification();
+  new_notification.render(args);
+});
+    
   }
-
 }

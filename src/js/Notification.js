@@ -1,4 +1,4 @@
-import { formatCurrency } from './utils';
+import { formatCurrency } from "./utils";
 import classNames from "classnames";
 
 export default class Notification {
@@ -6,29 +6,32 @@ export default class Notification {
     return {
       PEPPERONI: "pepperoni",
       MARGHERITA: "margherita",
-      HAWAIIAN: "hawa55iian",
+      HAWAIIAN: "hawaiian",
     };
   }
 
   constructor() {
     this.container = document.createElement("div");
     this.container.classList.add("notification-container");
+    this.notification=document.querySelector(".notifications");
   }
 
-  render({ type, price }) {
+  empty(){
+    this.container.remove();
+  }
+
+  render({type, price}) {
     const template = `
-<div class="notification type-${type} ${classNames({
-      "is-danger": type === Notification.types.HAWAIIAN,
-    })}">
+<div class="notification type-pepperoni">
   <button class="delete"></button>
-  🍕 <span class="type">${type}</span> (<span class="price">${formatCurrency(price)}</span>) has been added to your order.
+  🍕 <span class="type">pepperoni</span> (<span class="price">0,00</span>) has been added to your order.
 </div>
     `;
 
     this.container.innerHTML = template;
-  }
-
-  empty() {
-    this.container.innerHTML = '';
-  }
+    this.notification.appendChild(this.container);
+    this.container.querySelector('.delete').addEventListener('click',() =>{
+      this.empty();
+    });
+  };
 }
